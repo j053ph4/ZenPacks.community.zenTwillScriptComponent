@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+
+	<configure zcml:condition="installed Products.Zuul">
+		
+		<!-- Component Info -->
+		<adapter factory=".info.TwillScriptInfo"
+			for=".TwillScript.TwillScript"
+			provides=".interfaces.ITwillScriptInfo"
+		/>
+
+    	<!-- Import directRouter Directive -->
+    	<include package="Products.ZenUtils.extdirect.zope" file="meta.zcml"/>
+
+	    <browser:directRouter
+	        name="zenTwillScript_router"
+	        for="*"
+	        class=".routers.zenTwillScriptRouter"
+	        namespace="Zenoss.remote"
+	        permission="zenoss.View"
+	    />
+
+    	<adapter
+        	name="zenTwillScriptAdapter"
+        	provides=".interfaces.IzenTwillScriptFacade"
+        	for="*"
+        	factory=".facades.zenTwillScriptFacade"
+        />
+        
+  		<adapter factory=".info.TwillScriptDataSourceInfo"
+           for=".datasources.TwillScriptDataSource.TwillScriptDataSource"
+           provides=".interfaces.ITwillScriptDataSourceInfo"
+         />
+
+
+		<!-- Javascript stuff -->
+		<browser:resourceDirectory
+				name="zenTwillScriptComponent"
+				directory="resources"
+		/>
+		
+		<browser:viewlet
+			name="js-zenTwillScript"
+			paths="/++resource++zenTwillScriptComponent/twillscript.js"
+			weight="10"
+			manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"
+			class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
+			permission="zope2.Public"
+		/>
+	
+      <browser:viewlet
+          name="component-add-menu-twillscript"
+          paths="/++resource++zenTwillScriptComponent/twillscript-add.js"
+          weight="9"
+          for="Products.ZenModel.Device.Device"
+          manager="Products.ZenUI3.browser.interfaces.IHeadExtraManager"
+          class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
+          permission="zope2.Public"
+          />
+
+	</configure>
+</configure>
+
+

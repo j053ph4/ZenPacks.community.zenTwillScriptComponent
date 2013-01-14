@@ -1,0 +1,4 @@
+go http://www.slashdot.org/
+show
+showforms
+showhistory
