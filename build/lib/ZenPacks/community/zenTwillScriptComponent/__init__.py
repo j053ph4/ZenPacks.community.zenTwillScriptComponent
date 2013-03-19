@@ -1,47 +1,40 @@
 import Globals
 from Products.ZenModel.ZenPack import ZenPack as ZenPackBase
+from Products.ZenModel.OperatingSystem import OperatingSystem
 from Products.ZenUtils.Utils import unused
-import os,re
-
-from Products.CMFCore.DirectoryView import registerDirectory
-skinsDir = os.path.join(os.path.dirname(__file__), 'skins')
-if os.path.isdir(skinsDir):
-    registerDirectory(skinsDir, globals())
+from Definition import *
 
 unused(Globals)
-""" Add device relations
-"""
-from Products.ZenModel.OperatingSystem import OperatingSystem
-from Products.ZenRelations.RelSchema import *
-OperatingSystem._relations += (("twillComponents", ToManyCont(ToOne,
-                                    "ZenPacks.community.zenTwillScriptComponent.TwillScript", "os")),
-                            )
 
-from Products.ZenUtils.Utils import monkeypatch,prepId
+c = Construct(Definition)
+c.addDeviceRelation()
 
-@monkeypatch('Products.ZenModel.Device.Device')
-def manage_addTwillScript(self, name, url, script=[]):
-    """make a Twill Script component"""
-    from TwillScript import TwillScript
-    id = prepId(name)
-    component = TwillScript(id)
-    self.os.twillComponents._setObject(component.id, component)
-    component = self.os.twillComponents._getOb(component.id)
-    component.twillComponent = name
-    component.twillURL = url
-    component.twillScript = script
-    return component
+# copied from HttpMonitor
+def onCollectorInstalled(ob, event):
+    zpFriendly = c.componentClass
+    errormsg = '{0} binary cannot be found on {1}. This is part of the nagios-plugins ' + \
+               'dependency, and must be installed before {2} can function.'
+    verifyBin = c.cmdFile
+    code, output = ob.executeCommand('zenbincheck %s' % verifyBin, 'zenoss', needsZenHome=True)
+    if code:
+        log.warn(errormsg.format(verifyBin, ob.hostname, zpFriendly))
 
 class ZenPack(ZenPackBase):
-    """ Twill Script Component
+    """ Zenpack install
     """
-    def install(self, app):
-        ZenPackBase.install(self, app)
+    packZProperties = c.d.packZProperties
+    
+    def updateRelations(self):
         for d in self.dmd.Devices.getSubDevices():
-            d.os.buildRelations()
+            d.os.buildRelations()  
+
+    def install(self, app):
+        c.buildZenPackFiles()
+        ZenPackBase.install(self, app)
+        self.updateRelations()
 
     def remove(self, app, leaveObjects=False):
         ZenPackBase.remove(self, app, leaveObjects)
-        OperatingSystem._relations = tuple([x for x in OperatingSystem._relations if x[0] not in ('twillComponents')])
-        for d in self.dmd.Devices.getSubDevices():
-            d.os.buildRelations()
+        if not leaveObjects:
+            OperatingSystem._relations = tuple([x for x in OperatingSystem._relations if x[0] not in (c.relname)])
+            self.updateRelations()

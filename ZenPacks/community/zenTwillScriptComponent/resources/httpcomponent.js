@@ -9,17 +9,18 @@
                 }
             }
         
-            ZC.TwillScriptPanel = Ext.extend(ZC.ComponentGridPanel, {
+            ZC.HttpComponentPanel = Ext.extend(ZC.ComponentGridPanel, {
                 constructor: function(config) {
                     config = Ext.applyIf(config||{}, {
-                        componentType: 'TwillScript',
+                        componentType: 'HttpComponent',
                         fields: [
             {name: 'uid'},
             {name: 'severity'},
             {name: 'status'},
-            {name: 'name'},{name: 'url'},
-                {name: 'alias'},
-                {name: 'script'},
+            {name: 'name'},{name: 'port'},
+                {name: 'ssl'},
+                {name: 'eventComponent'},
+                {name: 'url'},
                 
             {name: 'usesMonitorAttribute'},
             {name: 'monitor'},
@@ -41,23 +42,29 @@
             sortable: true,
             width: 70
         },{
+                    id: 'port',
+                    dataIndex: 'port',
+                    header: _t('Port'),
+                    sortable: true,
+                    width: 160
+                },{
+                    id: 'ssl',
+                    dataIndex: 'ssl',
+                    header: _t('SSL'),
+                    sortable: true,
+                    width: 160
+                },{
+                    id: 'eventComponent',
+                    dataIndex: 'eventComponent',
+                    header: _t('Alias'),
+                    sortable: true,
+                    width: 160
+                },{
                     id: 'url',
                     dataIndex: 'url',
                     header: _t('URL'),
                     sortable: true,
-                    width: 200
-                },{
-                    id: 'alias',
-                    dataIndex: 'alias',
-                    header: _t('Alias'),
-                    sortable: true,
-                    width: 200
-                },{
-                    id: 'script',
-                    dataIndex: 'script',
-                    header: _t('Script'),
-                    sortable: true,
-                    width: 200
+                    width: 160
                 },{
             id: 'monitored',
             dataIndex: 'monitored',
@@ -73,12 +80,12 @@
             width: 65
         }]
                     });
-                    ZC.TwillScriptPanel.superclass.constructor.call(this, config);
+                    ZC.HttpComponentPanel.superclass.constructor.call(this, config);
                 }
             });
             
-            Ext.reg('TwillScriptPanel', ZC.TwillScriptPanel);
-            ZC.registerName('TwillScript', _t('Web Transaction'), _t('Web Transactions'));
+            Ext.reg('HttpComponentPanel', ZC.HttpComponentPanel);
+            ZC.registerName('HttpComponent', _t('Monitored URL'), _t('Monitored URLs'));
             
             })(); 
 

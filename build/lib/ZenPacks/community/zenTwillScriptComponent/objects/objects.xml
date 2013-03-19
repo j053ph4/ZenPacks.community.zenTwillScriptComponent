@@ -6,30 +6,39 @@
 ZenPacks.community.zenTwillScriptComponent.TwillScript
 </property>
 <tomanycont id='datasources'>
-<object id='twill-script' module='ZenPacks.community.zenTwillScriptComponent.datasources.TwillScriptDataSource' class='TwillScriptDataSource'>
+<object id='twillScript' module='ZenPacks.community.zenTwillScriptComponent.datasources.TwillScriptDataSource' class='TwillScriptDataSource'>
 <property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
-Twill
+TwillScript
 </property>
 <property type="boolean" id="enabled" mode="w" >
 True
 </property>
 <property type="string" id="component" mode="w" >
-${here/twillComponent}
+${here/alias}
 </property>
 <property type="string" id="eventClass" mode="w" >
-/App/Twill
+/Unknown
 </property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
 <property type="int" id="cycletime" mode="w" >
+60
+</property>
+<property switch="--url" type="string" id="url" mode="w" >
+${here/url}
+</property>
+<property switch="--name" type="string" id="alias" mode="w" >
+${here/alias}
+</property>
+<property switch="None" type="int" id="cycletime" mode="w" >
+60
+</property>
+<property switch="-t" type="string" id="timeout" mode="w" >
 300
 </property>
-<property type="boolean" id="usessh" mode="w" >
-False
-</property>
-<property type="string" id="parser" mode="w" >
-Auto
+<property switch="--script" type="lines" id="script" mode="w" >
+${here/script}
 </property>
 <tomanycont id='datapoints'>
 <object id='time' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -45,20 +54,17 @@ True
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='Slow Response' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="int" id="severity" mode="w" >
+3
+</property>
 <property label="DataPoints" type="lines" id="dsnames" mode="w" >
-['twill-script_time']
+['twillScript_time']
 </property>
 <property label="Enabled" type="boolean" id="enabled" mode="w" >
 False
 </property>
 <property type="string" id="maxval" mode="w" >
 15
-</property>
-<property type="string" id="eventClass" mode="w" >
-/App/Twill
-</property>
-<property type="int" id="severity" mode="w" >
-3
 </property>
 <property type="int" id="escalateCount" mode="w" >
 0
@@ -88,10 +94,27 @@ False
 <property type="boolean" id="hasSummary" mode="w" >
 True
 </property>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
 <tomanycont id='graphPoints'>
+<object id='Slow Response' module='Products.ZenModel.ThresholdGraphPoint' class='ThresholdGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
+<property type="string" id="threshId" mode="w" >
+Slow Response
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+</object>
 <object id='time' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+1
+</property>
 <property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
-LINE
+AREA
 </property>
 <property type="long" id="lineWidth" mode="w" >
 1
@@ -109,7 +132,7 @@ ${graphPoint/id}
 -1
 </property>
 <property type="string" id="dpName" mode="w" >
-twill-script_time
+twillScript_time
 </property>
 <property type="string" id="cFunc" mode="w" >
 AVERAGE

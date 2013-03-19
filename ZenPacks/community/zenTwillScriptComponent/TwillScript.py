@@ -1,63 +1,51 @@
-################################################################################
-#
-# This program is part of the zenTwillScriptComponent Zenpack for Zenoss.
-# This program can be used under the GNU General Public License version 2
-# You can find full information here: http://www.zenoss.com/oss
-#
-################################################################################
 from Products.ZenModel.OSComponent import OSComponent
 from Products.ZenModel.ZenPackPersistence import ZenPackPersistence
 from Products.ZenModel.ManagedEntity import ManagedEntity
-from Products.ZenModel.ZenossSecurity import ZEN_CHANGE_DEVICE
-from Products.ZenRelations.RelSchema import ToManyCont, ToOne
+from Products.ZenRelations.RelSchema import *
+
+'''
+args:  classname,classname,properties,_properties,relname,sortkey,viewname
+'''
 
 class TwillScript(OSComponent, ManagedEntity, ZenPackPersistence):
-
-    """
-    TwillScript contains the basic properties of a TwillScript component
-    """
+    '''
+    	basic Component class
+    '''
+    
     portal_type = meta_type = 'TwillScript'
     
-    twillComponent = ''
-    twillURL = ''
-    twillScript = ''
+    url = None
+    alias = None
+    script = None
 
     _properties = (
-        {'id':'twillComponent', 'type':'string', 'mode':''},
-        {'id':'twillURL', 'type':'string', 'mode':''},
-        {'id':'twillScript', 'type':'lines', 'mode':''},        
-        )
+    {'id': 'url', 'type': 'string','mode': '', 'switch': '--url' },
+    {'id': 'alias', 'type': 'string','mode': '', 'switch': '--name' },
+    {'id': 'script', 'type': 'lines','mode': '', 'switch': '--script' },
+
+    )
     
     _relations = OSComponent._relations + (
-        ("os", ToOne(ToManyCont, "Products.ZenModel.OperatingSystem", "twillComponents")),
+        ('os', ToOne(ToManyCont, 'Products.ZenModel.OperatingSystem', 'twillScripts')),
         )
-    
+
     isUserCreatedFlag = True
     def isUserCreated(self):
-        """ required built-in
-        """
         return self.isUserCreatedFlag
+        
+    def statusMap(self):
+        self.status = 0
+        return self.status
+    
+    def getStatus(self):
+        return self.statusMap()
+    
+    def primarySortKey(self):
+        return self.alias
     
     def viewName(self):
-        """ required built-in
-        """
-        return self.twillComponent
-    titleOrId = name = viewName
-
-    def primarySortKey(self):
-        """ required built-in
-        """
-        return self.twillComponent
+        return self.alias
     
-#    def getStatus(self):
-#        """ required built-in
-#        """
-#        return self.statusMap()
-#    
-#    def statusMap(self):
-#        """ map run state to zenoss status
-#        """
-#        self.status = 0
-#        return self.status
-#    
+    name = titleOrId = viewName
+
 

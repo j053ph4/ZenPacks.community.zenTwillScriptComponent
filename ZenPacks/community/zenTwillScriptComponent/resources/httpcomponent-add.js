@@ -8,12 +8,12 @@
                 var menuButton = Ext.getCmp('component-add-menu');
                 menuButton.menuItems.push({
                     xtype: 'menuitem',
-                    text: _t('Add Web Transaction') + '...',
+                    text: _t('Add Monitored URL') + '...',
                     hidden: Zenoss.Security.doesNotHavePermission('Manage Device'),
                     handler: function() {
                         var win = new Zenoss.dialog.CloseDialog({
                             width: 300,
-                            title: _t('Add Web Transaction'),
+                            title: _t('Add Monitored URL'),
                             items: [{
                                 xtype: 'form',
                                 buttonAlign: 'left',
@@ -24,44 +24,53 @@
                                 items: [
                 {
                 xtype: 'textfield',
-                name: 'url',
-                fieldLabel: _t('URL'),
-                id: "urlField",
+                name: 'port',
+                fieldLabel: _t('Port'),
+                id: "portField",
+                width: 260,
+                allowBlank: false,
+                },
+                
+                {
+                xtype: 'checkbox',
+                name: 'ssl',
+                fieldLabel: _t('SSL'),
+                id: "sslField",
                 width: 260,
                 allowBlank: false,
                 },
                 
                 {
                 xtype: 'textfield',
-                name: 'alias',
+                name: 'eventComponent',
                 fieldLabel: _t('Alias'),
-                id: "aliasField",
+                id: "eventComponentField",
                 width: 260,
                 allowBlank: false,
                 },
                 
                 {
-                xtype: 'textarea',
-                name: 'script',
-                fieldLabel: _t('Script'),
-                id: "scriptField",
+                xtype: 'textfield',
+                name: 'url',
+                fieldLabel: _t('URL'),
+                id: "urlField",
                 width: 260,
                 allowBlank: false,
                 },
                 ],
                                 buttons: [{
                                     xtype: 'DialogButton',
-                                    id: 'zenTwillScriptComponent-submit',
+                                    id: 'zenHttpComponent-submit',
                                     text: _t('Add'),
                                     formBind: true,
                                     handler: function(b) {
                                         var form = b.ownerCt.ownerCt.getForm();
                                         var opts = form.getFieldValues();
-                                        Zenoss.remote.zenTwillScriptComponentRouter.addTwillScriptRouter(opts,
+                                        Zenoss.remote.zenHttpComponentRouter.addHttpComponentRouter(opts,
                                         function(response) {
                                             if (response.success) {
                                                 new Zenoss.dialog.SimpleMessageDialog({
-                                                    title: _t('Web Transaction Added'),
+                                                    title: _t('Monitored URL Added'),
                                                     message: response.msg,
                                                     buttons: [{
                                                         xtype: 'DialogButton',
