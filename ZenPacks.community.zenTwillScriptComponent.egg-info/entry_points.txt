@@ -1,3 +1,0 @@
-[zenoss.zenpacks]
-ZenPacks.community.zenTwillScriptComponent = ZenPacks.community.zenTwillScriptComponent
-
