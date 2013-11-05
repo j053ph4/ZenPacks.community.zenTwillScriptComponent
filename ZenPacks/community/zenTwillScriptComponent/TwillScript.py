@@ -1,51 +1,5 @@
-from Products.ZenModel.OSComponent import OSComponent
-from Products.ZenModel.ZenPackPersistence import ZenPackPersistence
-from Products.ZenModel.ManagedEntity import ManagedEntity
-from Products.ZenRelations.RelSchema import *
+from ZenPacks.community.ConstructionKit.ClassHelper import *
 
-'''
-args:  classname,classname,properties,_properties,relname,sortkey,viewname
-'''
-
-class TwillScript(OSComponent, ManagedEntity, ZenPackPersistence):
-    '''
-    	basic Component class
-    '''
-    
-    portal_type = meta_type = 'TwillScript'
-    
-    url = None
-    alias = None
-    script = None
-
-    _properties = (
-    {'id': 'url', 'type': 'string','mode': '', 'switch': '--url' },
-    {'id': 'alias', 'type': 'string','mode': '', 'switch': '--name' },
-    {'id': 'script', 'type': 'lines','mode': '', 'switch': '--script' },
-
-    )
-    
-    _relations = OSComponent._relations + (
-        ('os', ToOne(ToManyCont, 'Products.ZenModel.OperatingSystem', 'twillScripts')),
-        )
-
-    isUserCreatedFlag = True
-    def isUserCreated(self):
-        return self.isUserCreatedFlag
-        
-    def statusMap(self):
-        self.status = 0
-        return self.status
-    
-    def getStatus(self):
-        return self.statusMap()
-    
-    def primarySortKey(self):
-        return self.alias
-    
-    def viewName(self):
-        return self.alias
-    
-    name = titleOrId = viewName
-
+class TwillScript(ClassHelper.TwillScript):
+    ''''''
 

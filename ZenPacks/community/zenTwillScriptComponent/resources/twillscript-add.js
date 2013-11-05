@@ -1,3 +1,4 @@
+
 (function() {
         
             function getPageContext() {
@@ -21,34 +22,34 @@
                                 labelAlign: 'top',
                                 footerStyle: 'padding-left: 0',
                                 border: false,
-                                items: [
-                {
-                xtype: 'textfield',
-                name: 'url',
-                fieldLabel: _t('URL'),
-                id: "urlField",
-                width: 260,
-                allowBlank: false,
-                },
-                
-                {
-                xtype: 'textfield',
-                name: 'alias',
-                fieldLabel: _t('Alias'),
-                id: "aliasField",
-                width: 260,
-                allowBlank: false,
-                },
-                
-                {
-                xtype: 'textarea',
-                name: 'script',
-                fieldLabel: _t('Script'),
-                id: "scriptField",
-                width: 260,
-                allowBlank: false,
-                },
-                ],
+                                items:                         [
+                            {
+                                fieldLabel: 'Alias', 
+                                allowBlank: 'false', 
+                                name: 'alias', 
+                                width: 260, 
+                                id: 'aliasField', 
+                                xtype: 'textfield'
+                            }, 
+                            {
+                                fieldLabel: 'Script', 
+                                allowBlank: 'false', 
+                                name: 'script', 
+                                width: 260, 
+                                id: 'scriptField', 
+                                xtype: 'textarea'
+                            }, 
+                            {
+                                fieldLabel: 'URL', 
+                                allowBlank: 'false', 
+                                name: 'url', 
+                                width: 260, 
+                                id: 'urlField', 
+                                xtype: 'textfield'
+                            }
+                        ]
+
+                                ,
                                 buttons: [{
                                     xtype: 'DialogButton',
                                     id: 'zenTwillScriptComponent-submit',
@@ -65,8 +66,11 @@
                                                     message: response.msg,
                                                     buttons: [{
                                                         xtype: 'DialogButton',
-                                                        text: _t('OK')
-                                                    }]
+                                                        text: _t('OK'),
+                                                        handler: function() { 
+                                                            window.top.location.reload();
+                                                            }
+                                                        }]
                                                 }).show();
                                             }
                                             else {
@@ -74,8 +78,11 @@
                                                     message: response.msg,
                                                     buttons: [{
                                                         xtype: 'DialogButton',
-                                                        text: _t('OK')
-                                                    }]
+                                                        text: _t('OK'),
+                                                        handler: function() { 
+                                                            window.top.location.reload();
+                                                            }
+                                                        }]
                                                 }).show();
                                             }
                                         });

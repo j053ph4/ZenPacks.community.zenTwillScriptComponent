@@ -5,59 +5,51 @@
         xmlns:zcml="http://namespaces.zope.org/zcml">
         <configure zcml:condition="installed Products.Zuul">
 
-            <!-- Datasource Info -->
-            <adapter factory=".info.TwillScriptDataSourceInfo"
-                for=".datasources.TwillScriptDataSource.TwillScriptDataSource"
-                provides=".interfaces.ITwillScriptDataSourceInfo"
-            />
-            <utility provides="zope.schema.interfaces.IVocabularyFactory"
-                component=".info.TwillScriptRedirectVocabulary"
-                name="TwillScriptRedirectVocabulary"
-            />
-            <subscriber zcml:condition="installed ZenPacks.zenoss.DistributedCollector.interfaces"
-                for="ZenPacks.zenoss.DistributedCollector.DistributedPerformanceConf.DistributedPerformanceConf
-                     ZenPacks.zenoss.DistributedCollector.interfaces.ICollectorInstalled"
-                handler=".onCollectorInstalled"
-            />
-            <!-- Component Info -->
-            <adapter factory=".info.TwillScriptInfo"
-                for=".TwillScript.TwillScript"
-                provides=".interfaces.ITwillScriptInfo"
-            />
-    
-            <!-- Import directRouter Directive -->
             <include package="Products.ZenUtils.extdirect.zope" file="meta.zcml"/>
-    
+
+
+            <!-- ZenPack Info -->
+
             <browser:directRouter
                 name="zenTwillScriptComponent_router"
                 for="*"
-                class=".routers.zenTwillScriptComponentRouter"
+                class="ZenPacks.community.zenTwillScriptComponent.routers.zenTwillScriptComponentRouter"
                 namespace="Zenoss.remote"
                 permission="zenoss.View"
             />
     
             <adapter
                 name="zenTwillScriptComponentAdapter"
-                provides=".interfaces.IzenTwillScriptComponentFacade"
+                provides="ZenPacks.community.zenTwillScriptComponent.interfaces.IzenTwillScriptComponentFacade"
                 for="*"
-                factory=".facades.zenTwillScriptComponentFacade"
+                factory="ZenPacks.community.zenTwillScriptComponent.facades.zenTwillScriptComponentFacade"
             />
                 
-            <!-- Javascript stuff -->
             <browser:resourceDirectory
                     name="zenTwillScriptComponent"
                     directory="resources"
             />
-                
+
+            <!-- Component Info -->
+            <adapter factory="ZenPacks.community.zenTwillScriptComponent.info.TwillScriptInfo"
+                for="ZenPacks.community.zenTwillScriptComponent.TwillScript.TwillScript"
+                provides="ZenPacks.community.zenTwillScriptComponent.interfaces.ITwillScriptInfo"
+            />
+    
             <browser:viewlet
-                name="js-zenTwillScriptComponent"
+                name="js-TwillScript"
                 paths="/++resource++zenTwillScriptComponent/twillscript.js"
                 weight="10"
                 manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"
                 class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
                 permission="zope2.Public"
             />
-            
+
+            <utility provides="zope.schema.interfaces.IVocabularyFactory"
+                component=".info.TwillScriptgetEventClassesVocabulary"
+                name="TwillScriptgetEventClasses"
+            />
+
             <browser:viewlet
                   name="component-add-menu-twillscript"
                   paths="/++resource++zenTwillScriptComponent/twillscript-add.js"
@@ -68,7 +60,23 @@
                   permission="zope2.Public"
             />
 
-        
+            <!-- Datasource Info -->
+            <adapter factory="ZenPacks.community.zenTwillScriptComponent.info.TwillScriptDataSourceInfo"
+                for="ZenPacks.community.zenTwillScriptComponent.datasources.TwillScriptDataSource.TwillScriptDataSource"
+                provides="ZenPacks.community.zenTwillScriptComponent.interfaces.ITwillScriptDataSourceInfo"
+            />
+
+            <utility provides="zope.schema.interfaces.IVocabularyFactory"
+                component=".info.TwillScriptRedirectVocabulary"
+                name="TwillScriptRedirectVocabulary"
+            />
+
+            <subscriber zcml:condition="installed ZenPacks.zenoss.DistributedCollector.interfaces"
+                for="ZenPacks.zenoss.DistributedCollector.DistributedPerformanceConf.DistributedPerformanceConf
+                     ZenPacks.zenoss.DistributedCollector.interfaces.ICollectorInstalled"
+                handler=".onCollectorInstalledTwillScript"
+            />
+
         </configure>
     </configure>
 

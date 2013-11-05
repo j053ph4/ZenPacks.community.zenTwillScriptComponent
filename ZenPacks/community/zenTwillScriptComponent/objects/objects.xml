@@ -17,7 +17,7 @@ True
 ${here/alias}
 </property>
 <property type="string" id="eventClass" mode="w" >
-/Unknown
+/WWW
 </property>
 <property type="int" id="severity" mode="w" >
 3
@@ -25,20 +25,20 @@ ${here/alias}
 <property type="int" id="cycletime" mode="w" >
 60
 </property>
-<property switch="--url" type="string" id="url" mode="w" >
-${here/url}
-</property>
 <property switch="--name" type="string" id="alias" mode="w" >
 ${here/alias}
 </property>
 <property switch="None" type="int" id="cycletime" mode="w" >
 60
 </property>
-<property switch="-t" type="string" id="timeout" mode="w" >
+<property switch="--script" type="lines" id="script" mode="w" >
+['${here/script}']
+</property>
+<property switch="-t" type="int" id="timeout" mode="w" >
 300
 </property>
-<property switch="--script" type="lines" id="script" mode="w" >
-${here/script}
+<property switch="--url" type="string" id="url" mode="w" >
+${here/url}
 </property>
 <tomanycont id='datapoints'>
 <object id='time' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
@@ -54,6 +54,9 @@ True
 </tomanycont>
 <tomanycont id='thresholds'>
 <object id='Slow Response' module='Products.ZenModel.MinMaxThreshold' class='MinMaxThreshold'>
+<property type="string" id="eventClass" mode="w" >
+/Perf/Snmp
+</property>
 <property type="int" id="severity" mode="w" >
 3
 </property>
