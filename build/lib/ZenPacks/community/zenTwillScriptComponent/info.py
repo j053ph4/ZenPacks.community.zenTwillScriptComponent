@@ -10,9 +10,6 @@ from ZenPacks.community.zenTwillScriptComponent.datasources.TwillScriptDataSourc
 def TwillScriptRedirectVocabulary(context):
     return SimpleVocabulary.fromValues(TwillScriptDataSource.onRedirectOptions)
 
-def TwillScriptDataSourcegetEventClassesVocabulary(context):
-    return SimpleVocabulary.fromValues(context.listgetEventClasses())
-
 class TwillScriptDataSourceInfo(ClassHelper.TwillScriptDataSourceInfo):
     ''''''
 

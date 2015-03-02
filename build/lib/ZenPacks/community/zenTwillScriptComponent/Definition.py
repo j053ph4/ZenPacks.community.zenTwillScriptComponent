@@ -1,8 +1,8 @@
 from ZenPacks.community.ConstructionKit.BasicDefinition import *
 from ZenPacks.community.ConstructionKit.Construct import *
 
-DATA = {
-        'version' : Version(2, 0, 0),
+TwillScriptDefinition = type('TwillScriptDefinition', (BasicDefinition,), {
+        'version' : Version(2, 1, 1),
         'zenpackbase': "zenTwillScriptComponent",
         'component' : 'TwillScript',
         'componentData' : {
@@ -20,9 +20,10 @@ DATA = {
         'createDS' : True,
         'addManual' : True,
         'cmdFile' : 'transtest.py',
-        'datapoints' : ['time']
+        'datapoints' : ['time'],
+        'saveOld': True,
+        'loadOld': True,
         }
-
-TwillScriptDefinition = type('TwillScriptDefinition', (BasicDefinition,), DATA)
+)
 
                             

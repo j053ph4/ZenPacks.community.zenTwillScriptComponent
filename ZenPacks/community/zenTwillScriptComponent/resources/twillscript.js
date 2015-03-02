@@ -9,7 +9,11 @@
             return ob;
         }
     }
-
+    
+    function pass_link(ob){ 
+        return ob; 
+    }
+    
     ZC.TwillScriptPanel = Ext.extend(ZC.ComponentGridPanel, {
         constructor: function(config) {
             config = Ext.applyIf(config||{}, {
@@ -68,23 +72,26 @@
                         "dataIndex": "name"
                     }, 
                     {
-                        "header": "Alias", 
-                        "width": 120, 
                         "sortable": "true", 
+                        "width": 120, 
+                        "header": "Alias", 
+                        "renderer": "pass_link", 
                         "id": "alias", 
                         "dataIndex": "alias"
                     }, 
                     {
-                        "header": "Script", 
-                        "width": 120, 
                         "sortable": "true", 
+                        "width": 120, 
+                        "header": "Script", 
+                        "renderer": "pass_link", 
                         "id": "script", 
                         "dataIndex": "script"
                     }, 
                     {
-                        "header": "URL", 
-                        "width": 120, 
                         "sortable": "true", 
+                        "width": 120, 
+                        "header": "URL", 
+                        "renderer": "pass_link", 
                         "id": "url", 
                         "dataIndex": "url"
                     }, 
