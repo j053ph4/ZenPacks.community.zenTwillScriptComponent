@@ -15,6 +15,7 @@ TwillScriptDefinition = type('TwillScriptDefinition', (BasicDefinition,), {
                                         'url' : addProperty('URL','Basic', switch='--url',optional='false'),
                                         'script': addProperty('Script','Basic',ptype='lines', switch='--script',optional='false'),
                                         'eventClass' : getEventClass('/WWW'),
+                                        'productKey' : getProductClass('WWW'),
                                         },
                           },
         'createDS' : True,
